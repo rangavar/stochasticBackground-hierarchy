@@ -19,3 +19,8 @@ This script returns the constraints from the stochastic background as "LStrain.e
 More details on the methods and the Hierarchical approach is available in the thesis at: 
 
 https://github.com/rangavar/stochasticBackground-hierarchy/raw/master/Stochastic_Gravitational_Wave_Background_from_the_Mergers_of_Supermassive_Black_Hole_Binaries.pdf
+
+---
+note that I use the LISA sensitivity line plotter to plot the sensitivity line of LISA, I integrated that here in the code, but the original is available at: 
+
+https://github.com/eXtremeGravityInstitute/LISA_Sensitivity/blob/master/LISA_Sensitivity.ipynb
