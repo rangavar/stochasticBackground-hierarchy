@@ -1,4 +1,4 @@
-0eventRate/*
+#0eventRate/*
 1energyDensity/*
 2strainPlots/*
 3snr/*
@@ -7,3 +7,5 @@
 6hourglass/*
 2strainPlotsLISA/*
 2strainPlotsValeriya/*
+0eventRate/plots/*
+0eventRate/data/*
