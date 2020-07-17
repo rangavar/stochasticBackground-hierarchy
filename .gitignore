@@ -9,3 +9,8 @@
 2strainPlotsValeriya/*
 0eventRate/plots/*
 0eventRate/data/*
+0eventRate/binder
+0eventRate/__pycache__
+0eventRate/LISA*
+0eventRate/Phenom*
+0eventRate/Wave*
