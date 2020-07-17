@@ -14,7 +14,7 @@ This script follows five steps:
 
 The level of noise can be changed at the beginning of the script.
 
-This script returns the constraints from the stochastic background as "LStrain.eps" files, constraints from the individually resolved binaries as "LDistribution.eps" file, and the joint constraints as "LFinal.eps", all in the ./plots directory. 
+This script returns the constraints from the stochastic background as "LStrain.eps" files, constraints from the individually resolved binaries as "LDistribution.eps" file, and the joint constraints as "LFinal.eps", all in ./plots directory. 
 
 More details on the methods and the Hierarchical approach is available in the thesis at: 
 
