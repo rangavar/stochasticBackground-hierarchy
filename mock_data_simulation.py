@@ -1,3 +1,5 @@
+#the output dictionary named 'usable_mock' gives the redshift, m1, and m2 for a drawn population of mergers in one year
+#usable_mock is aranged as usable_mock[key] = [z][m1][m2] where keys are mergers IDs, which are integers going from 0 to total_number_of_mergers_in_one_year
 import matplotlib
 matplotlib.use('Agg')
 import numpy
@@ -5,9 +7,9 @@ import numpy as np
 from astropy.cosmology import Planck15 as cosmo
 import matplotlib.pyplot as plot
 
-deltaZ = 0.1 #size of the z bins
-NM1 = 10 #number of M1 mass bins
-NM2 = 10 #number of M2 mass bins
+deltaZ = 5 #size of the z bins
+NM1 = 5 #number of M1 mass bins
+NM2 = 5 #number of M2 mass bins
 NMT = 10 #number of total-mass bins 
 
 font = {'family' : 'normal',
@@ -66,21 +68,21 @@ M2log = numpy.log10(M2)
 
 M1BinSize = (M1log[-1]-M1log[0])/NM1
 M1logBins = []
-for i in range(21):
+for i in range(NM1+1):
     M1logBins.append(M1log[0]+M1BinSize*i)
 
 M2BinSize = (M2log[-1]-M2log[0])/NM2
 M2logBins = []
-for i in range(21):
+for i in range(NM2+1):
     M2logBins.append(M2log[0]+M2BinSize*i)
 
 MTBinSize = (Mtotallog[-1]-Mtotallog[0])/NMT
 MTlogBins = []
 MTlogs = []
-for i in range(11):
+for i in range(NMT+1):
     MTlogBins.append(Mtotallog[0]+MTBinSize*i)
 
-#binning finished, now start
+#binning finished, now reading the data into bins
 ###popIII
 f = open('data/Klein16_PopIII.dat','r')
 lines = f.readlines()
@@ -99,7 +101,7 @@ for line in lines:
 eventRates = {}
 for j in detections.keys():
     i = int(j) #control
-    eventRates[zBins[i]] = eventRate(detections['%s'%i],zBins[i],zBins[i+1])
+    eventRates[zBins[i]] = eventRate(detections['%s'%i],zBins[i],zBins[i+1])*deltaZ
 
 #adding the zero bins as well! 
 for j in range(len(zBins)):
@@ -134,7 +136,7 @@ for line in lines:
 massDistribution_EventRate = {}
 for key in massDistribution.keys():
     i = int(key.split('-')[0])
-    massDistribution_EventRate[key] = eventRate(massDistribution[key],zBins[i],zBins[i+1])
+    massDistribution_EventRate[key] = eventRate(massDistribution[key],zBins[i],zBins[i+1])*deltaZ
 
 #adding the missing bins (bins with zero event rate)
 #making the mass distribution one dimensional for future use (now it is two dimensional: M1-M2)
@@ -190,3 +192,20 @@ for merger in range(int(totalNEvenets)+1):
     mock[merger][0] = int(z_bin)
     mock[merger][1] = int(M1_bin)
     mock[merger][2] = int(M2_bin)
+
+#now converting the results to a more usable format
+#note that this is only for one year, and to get the second year you can re-run the code and add the results to the pre-saved dictionary of the first year
+usable_mock = {}
+for key in mock.keys():
+    redshift_bin = int(mock[key][0])
+    redshift = 0.5*(zBins[redshift_bin]+zBins[redshift_bin+1])
+
+    mass1_bin = int(mock[key][1])
+    mass1 = 10.**( 0.5*(M1logBins[mass1_bin]+M1logBins[mass1_bin+1]) )
+    
+    mass2_bin = int(mock[key][2])
+    mass2 = 10.**( 0.5*(M2logBins[mass2_bin]+M2logBins[mass2_bin+1]) )
+
+    usable_mock[key] = numpy.zeros(3)
+    usable_mock[key][1] = mass1
+    usable_mock[key][2] = mass2
